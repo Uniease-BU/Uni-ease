@@ -19,7 +19,7 @@ app.use("/api/salon", require("./routes/salon"));
 app.use("/api/food", require("./routes/food"));
 
 app.get("/", (req, res) => {
-  res.send("<h1>Welcome to Our E-Commerce Website</h1>");
+  res.send("<h1>Welcome to Our Uni-Ease platform.</h1>");
 });
 
 const PORT = process.env.PORT || 8080;
