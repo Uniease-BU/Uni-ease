@@ -32,6 +32,7 @@ app.use("/api/auth", require("./routes.js"));
 app.use("/api/laundry", require("./routes/laundry"));
 app.use("/api/salon", require("./routes/salon"));
 app.use("/api/admin/laundry", require("./routes/adminLaundry")); // Admin routes
+app.use("/api/admin/salon", require("./routes/adminSalon")); // Admin routes
 
 // app.use("/api/food", require("./routes/food"));
 
