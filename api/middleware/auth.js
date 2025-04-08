@@ -1,14 +1,25 @@
-const jwt = require("jsonwebtoken");
+const {User} = require('./../models/User'); // Import your User model
+const jwt = require('jsonwebtoken'); // Add this at the top
 
-module.exports = function (req, res, next) {
-    const token = req.header("Authorization");
-    if (!token) return res.status(401).json({ msg: "No token, authorization denied" });
-
+const authenticate = async (req, res, next) => {
     try {
-        const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (err) {
-        res.status(401).json({ msg: "Invalid token" });
+      const token = req.header('Authorization').replace('Bearer ', '');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id);
+      
+      if (!user) throw new Error();
+      req.user = user;
+      next();
+    } catch (error) {
+      res.status(401).send({ error: 'Please authenticate' });
     }
+  };
+
+  const isAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+      return res.status(403).send({ error: 'Admin access required' });
+    }
+    next();
 };
+
+  module.exports = authenticate;
