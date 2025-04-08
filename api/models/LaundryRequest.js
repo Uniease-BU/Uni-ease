@@ -15,7 +15,7 @@ const LaundryRequestSchema = new mongoose.Schema({
       stains: [String],
       specialInstructions: String
     }],
-    status: { type: String, enum: ['pending', 'in-progress', 'completed'], default: 'pending' },
+    status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
     paymentStatus: { type: String, enum: ['pending', 'paid'], default: 'pending' },
     createdAt: { type: Date, default: Date.now },
     completedAt: Date
