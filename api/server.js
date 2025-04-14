@@ -14,7 +14,7 @@ const db = require("./config/db.js");
 const initialize = async () => {
   try {
       await db();
-      await createInitialAdmins();
+      // await createInitialAdmins();
       console.log("Database and admins initialized");
   } catch (error) {
       console.error("Initialization failed:", error);
@@ -31,8 +31,10 @@ app.use(express.json());
 app.use("/api/auth", require("./routes.js"));
 app.use("/api/laundry", require("./routes/laundry"));
 app.use("/api/salon", require("./routes/salon"));
+app.use("/api/food", require("./routes/food"));
 app.use("/api/admin/laundry", require("./routes/adminLaundry")); // Admin routes
 app.use("/api/admin/salon", require("./routes/adminSalon")); // Admin routes
+app.use("/api/admin/food", require("./routes/adminFood")); // Admin routes
 
 // app.use("/api/food", require("./routes/food"));
 
