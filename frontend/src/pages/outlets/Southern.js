@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiShoppingCart, FiTrash, FiPlus, FiMinus } from "react-icons/fi";
+import { FiShoppingCart, FiTrash, FiPlus, FiMinus, FiX } from "react-icons/fi";
 import Layout from "../../components/Layout";
 
 // Menu categories and items with actual names
@@ -21,42 +21,42 @@ const menuItems = {
       name: "Masala Fries",
       description: "Crispy fries with a spicy twist",
       price: 80,
-      image: "/images/masala_fries.jpg",
+      image: "/images/mf.jpg",
     },
     {
       id: 2,
       name: "Paneer Tikka",
       description: "Grilled paneer cubes with Indian spices",
       price: 150,
-      image: "/images/paneer_tikka.jpg",
+      image: "/images/pt.jpg",
     },
     {
       id: 3,
       name: "Chicken Wings",
       description: "Spicy and crispy chicken wings",
       price: 200,
-      image: "/images/chicken_wings.jpg",
+      image: "/images/cw.jpg",
     },
     {
       id: 4,
       name: "Cheese Balls",
       description: "Fried cheese-filled crispy balls",
       price: 120,
-      image: "/images/cheese_balls.jpg",
+      image: "/images/cbs.jpg",
     },
     {
       id: 5,
       name: "Spring Rolls",
       description: "Crispy rolls stuffed with vegetables",
       price: 100,
-      image: "/images/spring_rolls.jpg",
+      image: "/images/sr.jpg",
     },
     {
       id: 6,
       name: "Chilli Potato",
       description: "Crispy potatoes tossed in spicy sauce",
       price: 110,
-      image: "/images/chilli_potato.jpg",
+      image: "/images/cpt.jpg",
     },
     {
       id: 7,
@@ -102,68 +102,13 @@ const menuItems = {
       price: 80,
       image: "/images/gulab_jamun.jpg",
     },
-    {
-      id: 13,
-      name: "Ice Cream Sundae",
-      description: "Vanilla ice cream with chocolate syrup",
-      price: 120,
-      image: "/images/ice_cream_sundae.jpg",
-    },
-    {
-      id: 14,
-      name: "Rasgulla",
-      description: "Spongy cottage cheese balls in syrup",
-      price: 90,
-      image: "/images/rasgulla.jpg",
-    },
-    {
-      id: 15,
-      name: "Fruit Custard",
-      description: "Chilled custard with mixed fruits",
-      price: 110,
-      image: "/images/fruit_custard.jpg",
-    },
-    {
-      id: 16,
-      name: "Mango Mousse",
-      description: "Smooth and creamy mango dessert",
-      price: 130,
-      image: "/images/mango_mousse.jpg",
-    },
-    {
-      id: 17,
-      name: "Kaju Katli",
-      description: "Traditional Indian cashew sweet",
-      price: 140,
-      image: "/images/kaju_katli.jpg",
-    },
-    {
-      id: 18,
-      name: "Tiramisu",
-      description: "Classic Italian coffee-flavored dessert",
-      price: 150,
-      image: "/images/tiramisu.jpg",
-    },
-    {
-      id: 19,
-      name: "Strawberry Cheesecake",
-      description: "Creamy cheesecake with fresh strawberries",
-      price: 160,
-      image: "/images/strawberry_cheesecake.jpg",
-    },
-    {
-      id: 20,
-      name: "Choco Lava Cake",
-      description: "Molten chocolate-filled cake",
-      price: 170,
-      image: "/images/choco_lava_cake.jpg",
-    },
   ],
 };
 
 export default function SouthernStories() {
   const [selectedCategory, setSelectedCategory] = useState("Snacks");
   const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const addToCart = (item) => {
     setCart((prevCart) => {
@@ -178,10 +123,16 @@ export default function SouthernStories() {
     });
   };
 
+  const removeFromCart = (id) => {
+    setCart(cart.filter((item) => item.id !== id));
+  };
+
+  const getTotalCost = () =>
+    cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
   return (
     <Layout>
       <div className="flex flex-col items-center min-h-screen px-16 py-12 space-y-16">
-        {/* Hero Section */}
         <div
           className="w-full h-80 bg-cover bg-center flex items-center justify-center text-white text-5xl font-extrabold"
           style={{ backgroundImage: "url('/images/southern_bg.jpg')" }}
@@ -189,7 +140,6 @@ export default function SouthernStories() {
           Southern Stories
         </div>
 
-        {/* Category Navigation */}
         <div className="w-full flex justify-center space-x-8 text-white text-lg font-semibold border-b border-gray-700 pb-4">
           {categories.map((category) => (
             <span
@@ -206,7 +156,6 @@ export default function SouthernStories() {
           ))}
         </div>
 
-        {/* Menu Items Display */}
         <div className="grid grid-cols-3 gap-6 w-full max-w-7xl">
           {menuItems[selectedCategory]?.map((item) => (
             <div
@@ -236,7 +185,44 @@ export default function SouthernStories() {
             </div>
           ))}
         </div>
+
+        {isCartOpen && (
+          <div className="fixed top-0 right-0 w-96 h-full bg-gray-900 p-6 shadow-lg flex flex-col">
+            <div className="flex justify-between text-white text-xl">
+              <h2>Cart</h2>
+              <FiX
+                className="cursor-pointer"
+                onClick={() => setIsCartOpen(false)}
+              />
+            </div>
+            {cart.length === 0 ? (
+              <p className="text-gray-400 mt-4">Your cart is empty</p>
+            ) : (
+              cart.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex justify-between items-center text-white mt-4"
+                >
+                  <span>
+                    {item.name} x{item.quantity}
+                  </span>
+                  <FiTrash
+                    className="cursor-pointer text-red-500"
+                    onClick={() => removeFromCart(item.id)}
+                  />
+                </div>
+              ))
+            )}
+            <div className="mt-6 text-white">Total: ₹{getTotalCost()}</div>
+          </div>
+        )}
       </div>
+      <button
+        onClick={() => setIsCartOpen(true)}
+        className="fixed bottom-6 right-6 bg-yellow-500 p-4 rounded-full text-white"
+      >
+        <FiShoppingCart size={24} />
+      </button>
     </Layout>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PageWrapper from "../components/PageWrapper"; // Import transition wrapper
 import Layout from "../components/Layout"; // Import Layout component
+import axios from "axios";
 
 export default function Salon() {
   const [formData, setFormData] = useState({

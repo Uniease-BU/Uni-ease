@@ -6,11 +6,11 @@ import PageWrapper from "../components/PageWrapper"; // Swipe transition wrapper
 
 // Sample recommended food items (to be fetched dynamically later)
 const recommendedItems = [
-  { id: 1, name: "Cheese Burst Pizza", image: "/images/pizza.jpg" },
-  { id: 2, name: "Chicken Biryani", image: "/images/biryani.jpg" },
-  { id: 3, name: "Paneer Butter Masala", image: "/images/paneer.jpg" },
-  { id: 4, name: "Mango Smoothie", image: "/images/smoothie.jpg" },
-  { id: 5, name: "Chocolate Brownie", image: "/images/brownie.jpg" },
+  { id: 1, name: "Cheese Burst Pizza", image: "/images/cbp.jpg" },
+  { id: 2, name: "Chicken Biryani", image: "/images/cb.jpg" },
+  { id: 3, name: "Paneer Butter Masala", image: "/images/pbm.jpg" },
+  { id: 4, name: "Mango Smoothie", image: "/images/ms.jpg" },
+  { id: 5, name: "Chocolate Brownie", image: "/images/cbr.jpg" },
 ];
 
 // Sample outlets (to be fetched dynamically later)
