@@ -206,20 +206,6 @@ export default function MyLaundry() {
                             </li>
                           ))}
                         </ul>
-                        
-                        {/* Payment Status */}
-                        <div className="mt-4">
-                          <p className="text-sm font-medium">
-                            Payment Status: 
-                            <span className={`ml-2 ${
-                              request.paymentStatus === 'paid'
-                                ? 'text-green-600 dark:text-green-400' 
-                                : 'text-yellow-600 dark:text-yellow-400'
-                            }`}>
-                              {request.paymentStatus === 'paid' ? 'Paid' : 'Pending Payment'}
-                            </span>
-                          </p>
-                        </div>
                       </div>
                     )}
                   </div>

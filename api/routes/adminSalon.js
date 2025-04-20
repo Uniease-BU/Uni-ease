@@ -1,17 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('./../middleware/auth'); // Your existing auth middleware
+const { authenticate, isAdmin } = require('./../middleware/auth'); // Updated import
 const Salon = require('../models/Salon');
 const User = require('../models/User');
 const mongoose = require('mongoose');
-// Admin
-
-  const isAdmin = (req, res, next) => {
-    if (req.user.role !== 'admin') {
-      return res.status(403).send({ error: 'Admin access required' });
-    }
-    next();
-  };
 
 // Get all salon bookings with optional filtering (Admin)
 router.get('/bookings', authenticate, isAdmin, async (req, res) => {

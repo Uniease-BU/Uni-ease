@@ -1,16 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
-const auth = require('../middleware/auth');
+const { authenticate, isAdmin } = require('../middleware/auth');
 const FoodOutlet = require('../models/FoodOutlets');
-
-
-const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Admin access required' });
-  }
-  next();
-};
 
 const isOutletAdmin = async (req, res, next) => {
   try {
@@ -29,7 +21,7 @@ const isOutletAdmin = async (req, res, next) => {
 };
 
 // Get all orders for outlet
-router.get('/:outlet_id/orders',auth, isAdmin, isOutletAdmin, async (req, res) => {
+router.get('/:outlet_id/orders', authenticate, isAdmin, isOutletAdmin, async (req, res) => {
     try {
       const orders = await Order.find({
         outlet_id: req.params.outlet_id,
@@ -47,7 +39,7 @@ router.get('/:outlet_id/orders',auth, isAdmin, isOutletAdmin, async (req, res) =
   });
   
   // Get order details
-  router.get('/:outlet_id/orders/:order_id',auth, isAdmin, isOutletAdmin, async (req, res) => {
+  router.get('/:outlet_id/orders/:order_id', authenticate, isAdmin, isOutletAdmin, async (req, res) => {
     try {
       const order = await Order.findById(req.params.order_id)
         .populate('user_id', 'name email phone')
@@ -65,7 +57,7 @@ router.get('/:outlet_id/orders',auth, isAdmin, isOutletAdmin, async (req, res) =
   });
   
   // Update order status
-  router.patch('/:outlet_id/orders/:order_id',auth, isAdmin, isOutletAdmin, async (req, res) => {
+  router.patch('/:outlet_id/orders/:order_id', authenticate, isAdmin, isOutletAdmin, async (req, res) => {
     try {
       const { status } = req.body;
       const validStatuses = ['preparing', 'ready', 'completed', 'cancelled'];

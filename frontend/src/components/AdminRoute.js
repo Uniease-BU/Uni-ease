@@ -16,6 +16,10 @@ const AdminRoute = ({ children }) => {
           setAdminType('laundry');
         } else if (userData.email.includes('salon')) {
           setAdminType('salon');
+        } else if (userData.email.includes('southern')) {
+          setAdminType('southern');
+        } else if (userData.email.includes('snap')) {
+          setAdminType('snap'); 
         } else if (userData.email.includes('food')) {
           setAdminType('food');
         }
@@ -40,7 +44,7 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/admin/laundry" />;
   } else if (adminType === 'salon') {
     return <Navigate to="/admin/salon" />;
-  } else if (adminType === 'food') {
+  } else if (adminType === 'southern' || adminType === 'snap' || adminType === 'food') {
     return <Navigate to="/admin/food" />;
   }
 

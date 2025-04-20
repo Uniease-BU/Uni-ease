@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {User} = require("./models/User.js");
-const auth = require("./middleware/auth.js");
+const { authenticate } = require("./middleware/auth.js");
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Get User Profile (Protected)
-router.get("/me", auth, async (req, res) => {
+router.get("/me", authenticate, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
         res.json(user);

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const auth = require('../middleware/auth');
+const { authenticate } = require('../middleware/auth');
 
 // Models
 const FoodOutlet = require('../models/FoodOutlets');
@@ -9,12 +9,10 @@ const MenuItem = require('../models/MenuItems');
 const Order = require('../models/Order');
 const User = require('../models/User');
 
-
-
 // --------------------------
 // 1. GET /food/outlets - List all outlets
 // --------------------------
-router.get('/outlets', auth, async (req, res) => {
+router.get('/outlets', authenticate, async (req, res) => {
   try {
     const outlets = await FoodOutlet.find()
       .populate('vendor_id', 'name')
@@ -51,7 +49,7 @@ router.get('/outlets/:outlet_id/menu', async (req, res) => {
 // --------------------------
 // 3. POST /food/outlets/:outlet_id/cart - Add to cart
 // --------------------------
-router.post('/outlets/:outlet_id/cart', auth, async (req, res) => {
+router.post('/outlets/:outlet_id/cart', authenticate, async (req, res) => {
   try {
     const { outlet_id } = req.params;
     const { item_id, quantity } = req.body;
@@ -97,7 +95,7 @@ router.post('/outlets/:outlet_id/cart', auth, async (req, res) => {
 // --------------------------
 // 4. GET /food/outlets/:outlet_id/cart - View cart
 // --------------------------
-router.get('/outlets/:outlet_id/cart', auth, async (req, res) => {
+router.get('/outlets/:outlet_id/cart', authenticate, async (req, res) => {
   try {
     const cart = await Order.findOne({
       user_id: req.user.id,
@@ -124,7 +122,7 @@ router.get('/outlets/:outlet_id/cart', auth, async (req, res) => {
 // --------------------------
 // 5. POST /food/outlets/:outlet_id/checkout - Checkout
 // --------------------------
-router.post('/outlets/:outlet_id/checkout', auth, async (req, res) => {
+router.post('/outlets/:outlet_id/checkout', authenticate, async (req, res) => {
   try {
     const { outlet_id } = req.params;
     
@@ -161,7 +159,7 @@ router.post('/outlets/:outlet_id/checkout', auth, async (req, res) => {
 // --------------------------
 // 6. GET /orders/:order_id/status - Order status
 // --------------------------
-router.get('/orders/:order_id/status', auth, async (req, res) => {
+router.get('/orders/:order_id/status', authenticate, async (req, res) => {
   try {
     const order = await Order.findById(req.params.order_id)
       .populate('outlet_id', 'name');
@@ -184,7 +182,7 @@ router.get('/orders/:order_id/status', auth, async (req, res) => {
 // --------------------------
 // 7. POST /orders/:order_id/confirm - Confirm pickup
 // --------------------------
-router.post('/orders/:order_id/confirm', auth, async (req, res) => {
+router.post('/orders/:order_id/confirm', authenticate, async (req, res) => {
   try {
     const order = await Order.findOneAndUpdate(
       {
@@ -207,6 +205,48 @@ router.post('/orders/:order_id/confirm', auth, async (req, res) => {
       message: 'Pickup confirmed successfully'
     });
 
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+// --------------------------
+// 8. GET /orders - Get all orders for current user
+// --------------------------
+router.get('/orders', authenticate, async (req, res) => {
+  try {
+    const orders = await Order.find({
+      user_id: req.user.id,
+      status: { $ne: 'cart' } // Exclude items that are still in cart
+    })
+    .populate('outlet_id', 'name')
+    .populate({
+      path: 'items.item_id',
+      select: 'name price'
+    })
+    .sort('-createdAt');
+    
+    // Transform data structure to match what frontend expects
+    const transformedOrders = orders.map(order => ({
+      _id: order._id,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+      status: order.status,
+      total: order.total,
+      outlet: {
+        name: order.outlet_id?.name || "Unknown Outlet"
+      },
+      items: order.items.map(item => ({
+        quantity: item.quantity,
+        item: {
+          name: item.item_id?.name || "Unknown item",
+          price: item.item_id?.price || 0
+        }
+      }))
+    }));
+    
+    res.json(transformedOrders);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');

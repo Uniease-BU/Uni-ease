@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           // Try to get user info from token - this assumes you have a /me endpoint
-          // If you don't have such an endpoint, you might need to decode the JWT instead
           const response = await axios.get('http://localhost:5000/api/auth/me', {
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -42,6 +41,10 @@ export const AuthProvider = ({ children }) => {
                 setAdminType('laundry');
               } else if (response.data.email.includes('salon')) {
                 setAdminType('salon');
+              } else if (response.data.email.includes('southern')) {
+                setAdminType('southern');
+              } else if (response.data.email.includes('snap')) {
+                setAdminType('snap');
               } else if (response.data.email.includes('food')) {
                 setAdminType('food');
               }
@@ -74,6 +77,10 @@ export const AuthProvider = ({ children }) => {
         type = 'laundry';
       } else if (userData.email.includes('salon')) {
         type = 'salon';
+      } else if (userData.email.includes('southern')) {
+        type = 'southern';
+      } else if (userData.email.includes('snap')) {
+        type = 'snap';
       } else if (userData.email.includes('food')) {
         type = 'food';
       }
@@ -82,7 +89,11 @@ export const AuthProvider = ({ children }) => {
       
       // Redirect to specific admin page
       if (type) {
-        navigate(`/admin/${type}`);
+        if (type === 'southern' || type === 'snap') {
+          navigate(`/admin/food`);
+        } else {
+          navigate(`/admin/${type}`);
+        }
         return;
       }
     }

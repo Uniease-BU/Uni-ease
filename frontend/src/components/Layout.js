@@ -59,10 +59,14 @@ export default function Layout({ children }) {
         <div className="flex items-center space-x-4">
           {/* Logo links to home or admin dashboard based on user role */}
           <Link 
-            to={isAdmin() ? `/admin/${adminType}` : "/"} 
+            to={isAdmin() ? `/admin/${adminType === 'southern' || adminType === 'snap' ? 'food' : adminType}` : "/"} 
             className="text-xl font-bold text-white"
           >
-            {isAdmin() ? `${adminType?.toUpperCase()} Admin` : "Uni-Ease"}
+            {isAdmin() ? 
+              adminType === 'southern' ? 'SOUTHERN STORIES Admin' : 
+              adminType === 'snap' ? 'SNAP EATS Admin' : 
+              `${adminType?.toUpperCase()} Admin` 
+              : "Uni-Ease"}
           </Link>
 
           {/* Show specific admin navigation if user is an admin */}
@@ -86,6 +90,17 @@ export default function Layout({ children }) {
                     className={`text-sm ${location.pathname === '/admin/salon' ? 'text-blue-400' : 'text-gray-300 hover:text-white'} transition-colors`}
                   >
                     Salon Dashboard
+                  </Link>
+                </>
+              )}
+              
+              {(adminType === 'southern' || adminType === 'snap' || adminType === 'food') && (
+                <>
+                  <Link 
+                    to="/admin/food" 
+                    className={`text-sm ${location.pathname === '/admin/food' ? 'text-blue-400' : 'text-gray-300 hover:text-white'} transition-colors`}
+                  >
+                    Food Dashboard
                   </Link>
                 </>
               )}
@@ -152,12 +167,16 @@ export default function Layout({ children }) {
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-20 border border-gray-700">
                   <div className="px-4 py-2 text-sm text-gray-300 border-b border-gray-700">
-                    {isAdmin() ? `${adminType} Admin` : 'User Account'}
+                    {isAdmin() ? 
+                      adminType === 'southern' ? 'Southern Stories Admin' : 
+                      adminType === 'snap' ? 'Snap Eats Admin' : 
+                      `${adminType} Admin` 
+                      : 'User Account'}
                   </div>
                   
                   {isAdmin() ? (
                     <Link 
-                      to={`/admin/${adminType}`}
+                      to={`/admin/${adminType === 'southern' || adminType === 'snap' ? 'food' : adminType}`}
                       className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-all"
                       onClick={() => setIsUserMenuOpen(false)}
                     >

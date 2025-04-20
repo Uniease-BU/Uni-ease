@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const SalonSlot = require('../models/SalonSlot');
-const authenticate = require('./../middleware/auth'); // Your existing auth middleware
+const { authenticate } = require('../middleware/auth'); // Updated import
 const Salon = require('../models/Salon')
 const cron = require('node-cron');
 

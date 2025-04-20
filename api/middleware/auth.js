@@ -22,4 +22,4 @@ const authenticate = async (req, res, next) => {
     next();
 };
 
-  module.exports = authenticate;
+  module.exports = { authenticate, isAdmin };

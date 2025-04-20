@@ -13,8 +13,11 @@ import LoginPage from "./pages/Login";
 import FoodOutlets from "./pages/FoodOutlets";
 import Maps from "./pages/Maps";
 import SouthernStories from "./pages/outlets/Southern"; // Import the new Southern page
+import SnapEats from "./pages/outlets/SnapEats"; // Fix the import path
+import MyOrders from "./pages/MyOrders"; // Import the MyOrders page
 import AdminLaundry from "./pages/admin/AdminLaundry"; // Import the AdminLaundry component
 import AdminSalon from "./pages/admin/AdminSalon"; // Import the AdminSalon component
+import AdminFood from "./pages/admin/AdminFood"; // Import the AdminFood component
 import Register from "./pages/Register"; // Import the Register page
 import MyLaundry from "./pages/MyLaundry"; // Import MyLaundry component
 import MySalonBookings from "./pages/MySalonBookings"; // Import MySalonBookings component
@@ -79,6 +82,22 @@ function AnimatedRoutes() {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/snap-eats" 
+          element={
+            <ProtectedRoute>
+              <SnapEats />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/my-orders" 
+          element={
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>
+          } 
+        />
         
         {/* Admin Routes with Role-Based Access */}
         <Route 
@@ -100,6 +119,15 @@ function AnimatedRoutes() {
           element={
             <ProtectedRoute adminOnly={true} adminType="salon">
               <AdminSalon />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/admin/food" 
+          element={
+            <ProtectedRoute adminOnly={true} adminType="food">
+              <AdminFood />
             </ProtectedRoute>
           } 
         />
