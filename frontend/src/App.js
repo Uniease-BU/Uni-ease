@@ -17,6 +17,7 @@ import AdminLaundry from "./pages/admin/AdminLaundry"; // Import the AdminLaundr
 import AdminSalon from "./pages/admin/AdminSalon"; // Import the AdminSalon component
 import Register from "./pages/Register"; // Import the Register page
 import MyLaundry from "./pages/MyLaundry"; // Import MyLaundry component
+import MySalonBookings from "./pages/MySalonBookings"; // Import MySalonBookings component
 import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
 import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
 import AdminRoute from "./components/AdminRoute"; // Import the AdminRoute component
@@ -51,6 +52,14 @@ function AnimatedRoutes() {
           element={
             <ProtectedRoute>
               <Salon />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/my-salon-bookings" 
+          element={
+            <ProtectedRoute>
+              <MySalonBookings />
             </ProtectedRoute>
           } 
         />

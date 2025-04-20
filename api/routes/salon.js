@@ -156,5 +156,70 @@ router.get('/available-slots',authenticate, async (req, res) => {
       }
   });
 
+  // Get user's salon bookings
+  router.get('/my-bookings', authenticate, async (req, res) => {
+    try {
+      // Find all bookings for the current user
+      const bookings = await Salon.find({ 
+        user: req.user._id 
+      }).sort({ date: 1, time: 1 });
+      
+      // Format the bookings data for frontend
+      const formattedBookings = bookings.map(booking => ({
+        id: booking._id,
+        date: booking.date,
+        time: booking.time,
+        status: booking.status,
+        bookedAt: booking.bookedAt
+      }));
+      
+      res.json(formattedBookings);
+      
+    } catch (error) {
+      console.error('Error fetching user bookings:', error);
+      res.status(500).json({ error: 'Failed to retrieve your bookings' });
+    }
+  });
+
+  // Cancel a booking
+  router.delete('/bookings/:id', authenticate, async (req, res) => {
+    try {
+      // Find the booking and ensure it belongs to the current user
+      const booking = await Salon.findOne({
+        _id: req.params.id,
+        user: req.user._id
+      });
+      
+      if (!booking) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+      
+      // Check if booking can be canceled (only Pending or Confirmed)
+      if (!['Pending', 'Confirmed'].includes(booking.status)) {
+        return res.status(400).json({ 
+          error: `Cannot cancel booking with status: ${booking.status}` 
+        });
+      }
+      
+      // Update status to Cancelled
+      booking.status = 'Cancelled';
+      await booking.save();
+      
+      // Make the slot available again
+      await SalonSlot.updateOne(
+        { 
+          date: booking.date, 
+          time: booking.time 
+        },
+        { isAvailable: true }
+      );
+      
+      res.json({ message: 'Booking cancelled successfully' });
+      
+    } catch (error) {
+      console.error('Error cancelling booking:', error);
+      res.status(500).json({ error: 'Failed to cancel booking' });
+    }
+  });
 
 module.exports = router;
