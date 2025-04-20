@@ -11,10 +11,10 @@ const blocks = [
     color: 'from-blue-500 to-blue-700',
     hoverColor: 'hover:from-blue-600 hover:to-blue-800',
     maps: [
-      { id: 'a-ground', name: 'Ground Floor', image: '/images/cbp.jpg' },
-      { id: 'a-first', name: 'First Floor', image: '/images/cb.jpg' },
-      { id: 'a-second', name: 'Second Floor', image: '/images/ms.jpg' },
-      { id: 'a-third', name: 'Third Floor', image: '/images/pbm.jpg' },
+      { id: 'a-ground', name: 'Ground Floor', image: '/images/block a ground floor.jpg' },
+      { id: 'a-first', name: 'First Floor', image: '/images/block a first floor.jpg' },
+      { id: 'a-second', name: 'Second Floor', image: '/images/block a second floor.jpg' },
+      { id: 'a-third', name: 'Third Floor', image: '/images/block a first floor.jpg' }, // Using first floor as fallback
     ]
   },
   {
@@ -23,10 +23,10 @@ const blocks = [
     color: 'from-green-500 to-green-700',
     hoverColor: 'hover:from-green-600 hover:to-green-800',
     maps: [
-      { id: 'b-ground', name: 'Ground Floor', image: '/images/quench.jpg' },
-      { id: 'b-first', name: 'First Floor', image: '/images/cbs.jpg' },
-      { id: 'b-second', name: 'Second Floor', image: '/images/cpt.jpg' },
-      { id: 'b-third', name: 'Third Floor', image: '/images/sr.jpg' },
+      { id: 'b-ground', name: 'Ground Floor', image: '/images/block b ground floor.jpg' },
+      { id: 'b-first', name: 'First Floor', image: '/images/block b first floor.jpg' },
+      { id: 'b-second', name: 'Second Floor', image: '/images/block b second floor.jpg' },
+      { id: 'b-third', name: 'Third Floor', image: '/images/block b first floor.jpg' }, // Using first floor as fallback
     ]
   },
   {
@@ -35,10 +35,10 @@ const blocks = [
     color: 'from-purple-500 to-purple-700',
     hoverColor: 'hover:from-purple-600 hover:to-purple-800',
     maps: [
-      { id: 'n-ground', name: 'Ground Floor', image: '/images/mf.jpg' },
-      { id: 'n-first', name: 'First Floor', image: '/images/pt.jpg' },
-      { id: 'n-second', name: 'Second Floor', image: '/images/cw.jpg' },
-      { id: 'n-third', name: 'Third Floor', image: '/images/cbr.jpg' },
+      { id: 'n-ground', name: 'Ground Floor', image: '/images/block n ground floor.jpg' },
+      { id: 'n-first', name: 'First Floor', image: '/images/block n first floor.jpg' },
+      { id: 'n-second', name: 'Second Floor', image: '/images/block n first floor.jpg' }, // Using first floor as fallback
+      { id: 'n-third', name: 'Third Floor', image: '/images/block n first floor.jpg' }, // Using first floor as fallback
     ]
   },
   {
@@ -47,10 +47,10 @@ const blocks = [
     color: 'from-red-500 to-red-700',
     hoverColor: 'hover:from-red-600 hover:to-red-800',
     maps: [
-      { id: 'p-ground', name: 'Ground Floor', image: '/images/stories.jpg' },
-      { id: 'p-first', name: 'First Floor', image: '/images/snap.jpg' },
-      { id: 'p-second', name: 'Second Floor', image: '/images/map.png' },
-      { id: 'p-third', name: 'Third Floor', image: '/images/laundry.jpg' },
+      { id: 'p-ground', name: 'Ground Floor', image: '/images/block p ground floor.jpg' },
+      { id: 'p-first', name: 'First Floor', image: '/images/block p ground floor.jpg' }, // Using ground floor as fallback
+      { id: 'p-second', name: 'Second Floor', image: '/images/block p ground floor.jpg' }, // Using ground floor as fallback
+      { id: 'p-third', name: 'Third Floor', image: '/images/block p ground floor.jpg' }, // Using ground floor as fallback
     ]
   }
 ];
