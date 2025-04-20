@@ -78,51 +78,10 @@ router.patch('/laundries/:id', authenticate, isAdmin, async (req, res) => {
             return res.status(404).json({ error: 'Laundry request not found' });
         }
 
-        // // Default notification response
-        // let notification = { 
-        //     sent: false,
-        //     message: 'Status updated without notification'
-        // };
-
-        // // Send notification only when marked completed
-        // if (status === 'completed') {
-        //     try {
-        //         // Check if email credentials are configured
-        //         if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        //             console.warn('Email not configured - skipping notification');
-        //             notification = {
-        //                 sent: false,
-        //                 message: 'Email not configured - notification skipped'
-        //             };
-        //         } else {
-        //             await sendStatusNotification(
-        //                 laundry.email,
-        //                 {
-        //                     id: laundry._id,
-        //                     items: laundry.items,
-        //                     completedAt: laundry.completedAt
-        //                 }
-        //             );
-        //             notification = {
-        //                 sent: true,
-        //                 message: 'Notification email sent successfully'
-        //             };
-        //             console.log(`Notification sent to ${laundry.email}: Status changed to ${status}`);
-        //         }
-        //     } catch (emailError) {
-        //         console.error('Email failed:', emailError);
-        //         notification = {
-        //             sent: false,
-        //             message: 'Email notification failed: ' + emailError.message
-        //         };
-        //     }
-        // }
-  
         res.json({
             id: laundry._id,
             status: laundry.status,
-            completedAt: laundry.completedAt,
-            // notification: notification
+            completedAt: laundry.completedAt
         });
 
 

@@ -86,7 +86,6 @@ router.get('/laundries', authenticate, isAdmin, async (req, res) => {
                 type: request.type,
                 items: request.items,
                 status: request.status,
-                paymentStatus: request.paymentStatus,
                 createdAt: request.createdAt,
                 completedAt: request.completedAt
             }))

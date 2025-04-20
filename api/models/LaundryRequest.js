@@ -12,11 +12,9 @@ const LaundryRequestSchema = new mongoose.Schema({
     items: [{
       name: String,
       quantity: Number,
-      stains: [String],
       specialInstructions: String
     }],
     status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
-    paymentStatus: { type: String, enum: ['pending', 'paid'], default: 'pending' },
     createdAt: { type: Date, default: Date.now },
     completedAt: Date
   });

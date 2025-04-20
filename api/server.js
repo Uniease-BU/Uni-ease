@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { createInitialAdmins } = require('./models/User');
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:3000"],
 };
 const app = express();
 const dotenv = require("dotenv");
