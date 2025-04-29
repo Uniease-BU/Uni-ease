@@ -13,8 +13,8 @@ async function seedInitialSlots() {
     console.log('Cleared existing slots');
 
     // Add specific test date
-    const testDate = new Date('2025-04-05T00:00:00Z');
-    await generateDailySlots(testDate);
+    // const testDate = new Date('2025-04-05T00:00:00Z');
+    // await generateDailySlots(testDate);
 
     // Generate slots for next 7 days
     for (let i = 0; i < 7; i++) {
